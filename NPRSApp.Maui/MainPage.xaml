@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NPRSApp.Maui.MainPage"
+             Title="Police Reports">
+
+    <Grid RowDefinitions="*,Auto" Padding="10">
+
+        <!-- Reports List -->
+        <CollectionView ItemsSource="{Binding Reports}" Grid.Row="0">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border StrokeThickness="1"
+                            Stroke="Gray"
+                            Padding="10"
+                            Margin="5">
+
+                        <VerticalStackLayout Spacing="4">
+
+                            <Label Text="{Binding IncidentType}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"/>
+
+                            <Label Text="{Binding Location}"
+                                   FontSize="14"/>
+
+                            <Label Text="{Binding Date}"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!-- Button -->
+        <Button
+            Text="Create New Report"
+            Command="{Binding GoToNewReportCommand}"
+            Grid.Row="1"
+            Margin="0,10,0,0"
+            HorizontalOptions="Fill"/>
+
+    </Grid>
+
+</ContentPage>

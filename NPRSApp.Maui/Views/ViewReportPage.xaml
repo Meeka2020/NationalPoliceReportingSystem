@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NPRSApp.Maui.Views.ViewReportPage"
+    Title="Report Details">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <!-- REPORT HEADER -->
+            <Label
+                Text="Police Report Details"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <BoxView HeightRequest="1" Color="Gray" />
+
+            <!-- REPORT INFO -->
+            <Label Text="Report Number" FontAttributes="Bold" />
+            <Label Text="{Binding Report.ReportNo}" />
+
+            <Label Text="Status" FontAttributes="Bold" />
+            <Label Text="{Binding Report.Status}" />
+
+            <Label Text="Date Submitted" FontAttributes="Bold" />
+            <Label Text="{Binding Report.CreatedOn, StringFormat='{0:dd MMM yyyy HH:mm}'}" />
+
+            <BoxView HeightRequest="1" Color="Gray" />
+
+            <!-- REPORTER DETAILS -->
+            <Label Text="Reporter Details" FontSize="18" FontAttributes="Bold" />
+
+            <Label Text="Name" FontAttributes="Bold" />
+            <Label Text="{Binding Report.ReporterName}" />
+
+            <Label Text="Phone" FontAttributes="Bold" />
+            <Label Text="{Binding Report.ReporterPhone}" />
+
+            <Label Text="Email" FontAttributes="Bold" />
+            <Label Text="{Binding Report.ReporterEmail}" />
+
+            <BoxView HeightRequest="1" Color="Gray" />
+
+            <!-- INCIDENT DETAILS -->
+            <Label Text="Incident Details" FontSize="18" FontAttributes="Bold" />
+
+            <Label Text="Type" FontAttributes="Bold" />
+            <Label Text="{Binding Report.IncidentType}" />
+
+            <Label Text="Date" FontAttributes="Bold" />
+            <Label Text="{Binding Report.IncidentDate, StringFormat='{0:dd MMM yyyy}'}" />
+
+            <Label Text="Location" FontAttributes="Bold" />
+            <Label Text="{Binding Report.IncidentLocation}" />
+
+            <Label Text="Description" FontAttributes="Bold" />
+            <Label
+                Text="{Binding Report.Description}"
+                LineBreakMode="WordWrap" />
+
+            <!-- OPTIONAL CONSULTATION -->
+            <StackLayout IsVisible="{Binding HasConsultation}">
+                <BoxView HeightRequest="1" Color="Gray" />
+
+                <Label Text="Consultation Booking" FontSize="18" FontAttributes="Bold" />
+
+                <Label Text="Date" FontAttributes="Bold" />
+                <Label Text="{Binding Report.ConsultationDate, StringFormat='{0:dd MMM yyyy}'}" />
+
+                <Label Text="Time" FontAttributes="Bold" />
+                <Label Text="{Binding Report.ConsultationTime}" />
+            </StackLayout>
+
+            <BoxView HeightRequest="1" Color="Gray" />
+
+            <!-- ACTION BUTTONS -->
+            <Button
+                Text="Edit Report"
+                Command="{Binding EditCommand}"
+                BackgroundColor="#5A67D8"
+                TextColor="White" />
+
+            <Button
+                Text="Download PDF Receipt"
+                Command="{Binding PdfCommand}"
+                BackgroundColor="#48BB78"
+                TextColor="White" />
+
+            <Button
+                Text="Delete Report"
+                Command="{Binding DeleteCommand}"
+                BackgroundColor="#E53E3E"
+                TextColor="White" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

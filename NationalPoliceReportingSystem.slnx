@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="NPRSApp.Maui/NPRSApp.Maui.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>
