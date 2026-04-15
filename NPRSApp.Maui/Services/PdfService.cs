@@ -22,6 +22,18 @@ namespace NPRSApp.Maui.Services
             string fileName = $"PoliceReport_{report.ReportNo}.pdf";
             string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
+            // ✅ LOAD IMAGE CORRECTLY FROM MAUI RESOURCES
+            byte[] logoBytes = null;
+
+            using (var stream = await FileSystem.OpenAppPackageFileAsync("jamaica-constabulary-force_logo.png"))
+            {
+                using (var memory = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memory);
+                    logoBytes = memory.ToArray();
+                }
+            }
+
             await Task.Run(() =>
             {
                 Document.Create(container =>
