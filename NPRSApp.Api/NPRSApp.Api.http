@@ -1,0 +1,17 @@
+@NPRSApp.Api_HostAddress = http://localhost:5290
+
+GET {{NPRSApp.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+
+###
+POST https://localhost:7054/api/reports
+Content-Type: application/json
+
+{
+  "reportNo": "PR-001",
+  "reporterName": "Shameka Taylor",
+  "incidentType": "Theft",
+  "incidentLocation": "Kingston",
+  "description": "Test police report"
+}

@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="NPRSApp.Api/NPRSApp.Api.csproj" Id="4103b1da-2353-41c7-85b4-1e756e57e08d" />
   <Project Path="NPRSApp.Maui/NPRSApp.Maui.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
