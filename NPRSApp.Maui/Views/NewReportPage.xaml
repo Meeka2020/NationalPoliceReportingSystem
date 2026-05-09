@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NPRSApp.Maui.Views.NewReportPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="#F2F4F7">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- APP BAR -->
+        <Grid Grid.Row="0"
+              BackgroundColor="#1E3A5F"
+              Padding="20"
+              ColumnDefinitions="Auto,*,Auto">
+
+            <Label Text="←"
+                   FontSize="24"
+                   TextColor="White"
+                   VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label Grid.Column="1"
+                   Text="File a Report"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalTextAlignment="Center"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- FORM -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="14">
+
+                <!-- Reporter Name -->
+                <HorizontalStackLayout>
+                    <Label Text="Reporter Name" FontAttributes="Bold"/>
+                    <Label Text=" *" TextColor="Red"/>
+                </HorizontalStackLayout>
+
+                <Entry Placeholder="Enter your name"
+                       Text="{Binding ReporterName}"
+                       BackgroundColor="White"/>
+
+                <!-- Incident Type -->
+                <HorizontalStackLayout>
+                    <Label Text="Incident Type" FontAttributes="Bold"/>
+                    <Label Text=" *" TextColor="Red"/>
+                </HorizontalStackLayout>
+
+                <Picker Title="Select Type"
+                        SelectedItem="{Binding IncidentType}"
+                        BackgroundColor="White">
+                    <Picker.Items>
+                        <x:String>Theft</x:String>
+                        <x:String>Assault</x:String>
+                        <x:String>Burglary</x:String>
+                        <x:String>Murder</x:String>
+                        <x:String>Scamming</x:String>
+                        <x:String>Domestic Dispute</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <!-- Description -->
+                <HorizontalStackLayout>
+                    <Label Text="Description" FontAttributes="Bold"/>
+                    <Label Text=" *" TextColor="Red"/>
+                </HorizontalStackLayout>
+
+                <Editor HeightRequest="110"
+                        Text="{Binding Description}"
+                        BackgroundColor="White"/>
+
+                <!-- Date -->
+                <Label Text="Date of Incident"
+                       FontAttributes="Bold"/>
+                <DatePicker Date="{Binding IncidentDate}"
+                            BackgroundColor="White"/>
+
+                <!-- Location -->
+                <HorizontalStackLayout>
+                    <Label Text="Location" FontAttributes="Bold"/>
+                    <Label Text=" *" TextColor="Red"/>
+                </HorizontalStackLayout>
+
+                <Entry Placeholder="Enter location"
+                       Text="{Binding IncidentLocation}"
+                       BackgroundColor="White"/>
+
+                <!-- SUBMIT -->
+                <Button Text="Submit Report"
+                        Command="{Binding SaveCommand}"
+                        HeightRequest="50"
+                        BackgroundColor="#1E3A5F"
+                        TextColor="White"
+                        CornerRadius="12"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

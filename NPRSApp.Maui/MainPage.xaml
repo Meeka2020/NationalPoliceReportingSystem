@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NPRSApp.Maui.MainPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="#F2F4F7">
+
+    <!-- FULL SCREEN GRID -->
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- APP BAR -->
+        <Grid BackgroundColor="#1E3A5F"
+              Padding="20"
+              ColumnDefinitions="Auto,*,Auto">
+
+            <Image Source="badge.png"
+                   HeightRequest="36"
+                   VerticalOptions="Center" />
+
+            <Label Grid.Column="1"
+                   Text="Police Report System"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalTextAlignment="Center"
+                   VerticalOptions="Center" />
+
+            <Image Grid.Column="2" HeightRequest="26">
+                <Image.Source>
+                    <FontImageSource Glyph="🔔"
+                                     Size="26"
+                                     Color="White" />
+                </Image.Source>
+            </Image>
+        </Grid>
+
+        <!-- MAIN CONTENT -->
+        <VerticalStackLayout Grid.Row="1"
+                             Padding="20"
+                             Spacing="20">
+
+            <!-- DASHBOARD -->
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto"
+                  ColumnSpacing="18"
+                  RowSpacing="18">
+
+                <!-- File a Report -->
+                <Border BackgroundColor="White"
+                        Padding="18"
+                        Stroke="#E5E7EB"
+                        HeightRequest="140">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnFileReportTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+
+                    <Border.Shadow>
+                        <Shadow Radius="6"
+                                Offset="0,3"
+                                Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="10">
+                        <Image HeightRequest="56">
+                            <Image.Source>
+                                <FontImageSource Glyph="📝"
+                                                 Size="56"
+                                                 Color="#1E3A5F" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label Text="File a Report"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- View Reports -->
+                <Border Grid.Column="1"
+                        BackgroundColor="White"
+                        Padding="18"
+                        Stroke="#E5E7EB"
+                        HeightRequest="140">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnViewReportsTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+
+                    <Border.Shadow>
+                        <Shadow Radius="6"
+                                Offset="0,3"
+                                Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="10">
+                        <Image HeightRequest="56">
+                            <Image.Source>
+                                <FontImageSource Glyph="🔍"
+                                                 Size="56"
+                                                 Color="#1E3A5F" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label Text="View Reports"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Book Appointment -->
+                <Border Grid.Row="1"
+                        BackgroundColor="White"
+                        Padding="18"
+                        Stroke="#E5E7EB"
+                        HeightRequest="140">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBookAppointmentTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+
+                    <Border.Shadow>
+                        <Shadow Radius="6"
+                                Offset="0,3"
+                                Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="10">
+                        <Image HeightRequest="56">
+                            <Image.Source>
+                                <FontImageSource Glyph="📅"
+                                                 Size="56"
+                                                 Color="#1E3A5F" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label Text="Book Appointment"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Generate PDF -->
+                <Border Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="White"
+                        Padding="18"
+                        Stroke="#E5E7EB"
+                        HeightRequest="140">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+
+                    <Border.Shadow>
+                        <Shadow Radius="6"
+                                Offset="0,3"
+                                Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="10">
+                        <Image HeightRequest="56">
+                            <Image.Source>
+                                <FontImageSource Glyph="📄"
+                                                 Size="56"
+                                                 Color="#1E3A5F" />
+                            </Image.Source>
+                        </Image>
+
+                        <Label Text="Generate PDF"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- ✅ QUICK TIPS (CORRECT POSITION) -->
+            <Border BackgroundColor="White"
+                    Padding="20"
+                    Stroke="#E5E7EB">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Quick Tips"
+                           FontSize="17"
+                           FontAttributes="Bold" />
+
+                    <Label Text="• Emergency? Call 911"
+                           FontSize="15"
+                           TextColor="#C62828"
+                           FontAttributes="Bold" />
+
+                    <Label Text="• This is a demo app for reporting incidents."
+                           FontSize="15"
+                           TextColor="#4B5563" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
+

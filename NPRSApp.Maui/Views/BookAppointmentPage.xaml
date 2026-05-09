@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+    x:Class="NPRSApp.Maui.Views.BookAppointmentPage"
+    BackgroundColor="#F5F7FA"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ✅ ONLY BLUE APP BAR -->
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="#1E3A5F"
+            Padding="16"
+            ColumnDefinitions="Auto,*">
+
+            <Label
+                Text="←"
+                FontSize="22"
+                TextColor="White"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label
+                Grid.Column="1"
+                Text="Book Appointment"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <Border Stroke="#DDD" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Padding="12">
+                        <Label Text="Check Date" FontAttributes="Bold" />
+                        <DatePicker
+                            Date="{Binding SelectedDate}"
+                            MinimumDate="{x:Static sys:DateTime.Today}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Stroke="#DDD" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Padding="12">
+                        <Label Text="Check Time" FontAttributes="Bold" />
+                        <TimePicker Time="{Binding SelectedTime}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Reason for Appointment"
+                       FontAttributes="Bold" />
+
+                <Editor
+                    HeightRequest="120"
+                    Placeholder="Enter reason"
+                    Text="{Binding Reason}" />
+
+                <Button
+                    Text="Book Appointment"
+                    HeightRequest="50"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    CornerRadius="12"
+                    Command="{Binding BookAppointmentCommand}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>
+

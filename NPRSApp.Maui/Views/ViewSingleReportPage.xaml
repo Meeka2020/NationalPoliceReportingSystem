@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NPRSApp.Maui.Views.ViewSingleReportPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Report Details"
+    BackgroundColor="#F5F6FA">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Police Report Details"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+
+            <Border BackgroundColor="White"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="15">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="{Binding Report.ReportNo}" FontAttributes="Bold"/>
+                    <Label Text="{Binding Report.ReporterName}" />
+                    <Label Text="{Binding Report.ReporterPhone}" />
+                    <Label Text="{Binding Report.ReporterEmail}" />
+                    <Label Text="{Binding Report.Contact}" />
+                    <Label Text="{Binding Report.IncidentType}" />
+                    <Label Text="{Binding Report.IncidentDate}" />
+                    <Label Text="{Binding Report.IncidentLocation}" />
+                    <Label Text="{Binding Report.Description}" />
+                    <Label Text="{Binding Report.Status}"
+                           TextColor="Green"
+                           FontAttributes="Bold"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
