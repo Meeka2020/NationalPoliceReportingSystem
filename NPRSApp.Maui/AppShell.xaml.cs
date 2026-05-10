@@ -14,5 +14,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(BookAppointmentPage), typeof(BookAppointmentPage));
         Routing.RegisterRoute(nameof(ViewReportPage), typeof(ViewReportPage));
         Routing.RegisterRoute(nameof(ViewSingleReportPage), typeof(ViewSingleReportPage));
+        //Routing.RegisterRoute(nameof(EditReportPage), typeof(EditReportPage));
     }
 }

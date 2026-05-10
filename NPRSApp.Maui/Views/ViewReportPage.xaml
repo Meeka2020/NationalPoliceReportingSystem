@@ -1,82 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="NPRSApp.Maui.Views.ViewReportPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:NPRSApp.Maui.Model"
+    x:Class="NPRSApp.Maui.Views.ViewReportPage"
     x:Name="Page"
     Title="View Reports"
     BackgroundColor="#F5F6FA">
 
-    <VerticalStackLayout Padding="15" Spacing="12">
+    <VerticalStackLayout Padding="15" Spacing="14">
 
         <!-- Search -->
-        <Border StrokeShape="RoundRectangle 10"
-                BackgroundColor="White"
-                Padding="8">
-
+        <Border
+            StrokeShape="RoundRectangle 12"
+            BackgroundColor="White"
+            Padding="10">
             <SearchBar Placeholder="Search reports..." />
         </Border>
 
-        <!-- List -->
-        <CollectionView ItemsSource="{Binding Reports}"
-                        SelectionMode="None">
+        <!-- Reports List -->
+        <CollectionView
+            ItemsSource="{Binding Reports}"
+            SelectionMode="None">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:PoliceReport">
 
-                    <Border StrokeShape="RoundRectangle 14"
-                            BackgroundColor="White"
-                            Margin="0,6"
-                            Padding="12">
+                    <Border
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="White"
+                        Padding="14"
+                        Margin="0,8"
+                        Stroke="#E5E7EB">
 
                         <VerticalStackLayout Spacing="6">
 
-                            <!-- Report Number -->
-                            <Label Text="{Binding ReportNo, StringFormat='Report No: {0}'}"
-                                   FontSize="13"
-                                   FontAttributes="Bold" />
+                            <Label
+                                Text="{Binding ReporterName}"
+                                FontSize="15"
+                                FontAttributes="Bold" />
 
-                            <!-- Reporter Name -->
-                            <Label Text="{Binding ReporterName, StringFormat='Reporter: {0}'}"
-                                   FontSize="12" />
+                            <Label
+                                Text="{Binding IncidentType}"
+                                FontSize="13"
+                                TextColor="#374151" />
 
-                            <!-- IncidentType -->
-                            <Label Text="{Binding IncidentType, StringFormat='Incident: {0}'}"
-                                   FontSize="12"  />
+                            <Label
+                                Text="{Binding IncidentLocation}"
+                                FontSize="12"
+                                TextColor="#6B7280" />
 
-                            <!-- Buttons -->
-                            <HorizontalStackLayout Margin="0,10,0,0" Spacing="10">
+                            <Border
+                                BackgroundColor="#DCFCE7"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="6,2"
+                                HorizontalOptions="Start">
 
-                                <Button Text="View"
-                                        BackgroundColor="#1D4ED8"
-                                        TextColor="White"
-                                        FontSize="12"
-                                        CornerRadius="8"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.ViewCommand}"
-                                        CommandParameter="{Binding .}" />
+                                <Label
+                                    Text="{Binding Status}"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    TextColor="#15803D" />
+                            </Border>
 
-                                <Button Text="Edit"
-                                        BackgroundColor="#F59E0B"
-                                        TextColor="White"
-                                        FontSize="12"
-                                        CornerRadius="8"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditCommand}"
-                                        CommandParameter="{Binding .}" />
+                            <HorizontalStackLayout
+                                HorizontalOptions="End"
+                                Spacing="8"
+                                Margin="0,10,0,0">
 
-                                <Button Text="Delete"
-                                        BackgroundColor="#DC2626"
-                                        TextColor="White"
-                                        FontSize="12"
-                                        CornerRadius="8"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteCommand}"
-                                        CommandParameter="{Binding .}" />
+                                <Button
+                                    Text="View"
+                                    BackgroundColor="#2563EB"
+                                    TextColor="White"
+                                    FontSize="11"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.ViewCommand}"
+                                    CommandParameter="{Binding .}" />
 
+                                <Button
+                                    Text="Edit"
+                                    BackgroundColor="#F59E0B"
+                                    TextColor="White"
+                                    FontSize="11"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditCommand}"
+                                    CommandParameter="{Binding .}" />
+
+                                <Button
+                                    Text="Delete"
+                                    BackgroundColor="#DC2626"
+                                    TextColor="White"
+                                    FontSize="11"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteCommand}"
+                                    CommandParameter="{Binding .}" />
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
                     </Border>
-
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

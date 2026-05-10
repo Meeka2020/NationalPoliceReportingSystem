@@ -2,17 +2,64 @@
 using Microsoft.Maui.Controls;
 using NPRSApp.Maui.Model;
 using NPRSApp.Maui.Services;
-using NPRSApp.Maui.Views;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NPRSApp.Maui.ViewModels;
 
-[QueryProperty(nameof(Report), "Report")]
+[QueryProperty(nameof(ReportId), "ReportId")]
 public partial class NewReportViewModel : BaseViewModel
 {
     private readonly DatabaseService _databaseService;
+
+    // ========= CONSTRUCTOR =========
+    public NewReportViewModel(DatabaseService databaseService)
+    {
+        Title = "New Police Report";
+        _databaseService = databaseService;
+
+        SaveCommand = new AsyncRelayCommand(SaveReport);
+    }
+
+    // ========= ✅ FIXED: REPORT ID =========
+    private string? reportId;
+    public string ?ReportId
+    {
+        get => reportId;
+        set
+        {
+            reportId = value;
+
+            // ✅ FIX: convert string to int safely
+            if (int.TryParse(value, out int id))
+            {
+                LoadReportById(id);
+            }
+        }
+    }
+
+    // ========= LOAD REPORT BY ID =========
+    private async void LoadReportById(int id)
+    {
+        if (id <= 0)
+            return;
+
+        try
+        {
+            var report = await _databaseService.GetReportByIdAsync(id);
+
+            if (report != null && report.Id > 0)
+            {
+                Report = report;
+            }
+        }
+        catch (Exception ex)
+        {
+            await ShowAlertAsync("Load Error",
+                $"{ex.Message}\n{ex.InnerException?.Message}");
+        }
+    }
 
     // ========= EDIT SUPPORT =========
     private PoliceReport? _report;
@@ -22,10 +69,9 @@ public partial class NewReportViewModel : BaseViewModel
         set
         {
             SetProperty(ref _report, value);
+
             if (value != null)
-            {
                 LoadReportForEdit(value);
-            }
         }
     }
 
@@ -43,17 +89,7 @@ public partial class NewReportViewModel : BaseViewModel
 
     public ICommand SaveCommand { get; }
 
-    public NewReportViewModel(
-        DatabaseService databaseService)
-    {
-        Title = "New Police Report";
-
-        _databaseService = databaseService;
-
-        SaveCommand = new AsyncRelayCommand(SaveReport);
-    }
-
-    // ========= LOAD FOR EDIT =========
+    // ========= LOAD DATA INTO FORM =========
     private void LoadReportForEdit(PoliceReport report)
     {
         ReporterName = report.ReporterName;
@@ -68,13 +104,13 @@ public partial class NewReportViewModel : BaseViewModel
         IsEditMode = true;
         Title = "Edit Police Report";
 
+        // ✅ refresh UI
         OnPropertyChanged(string.Empty);
     }
 
-    // ========= SAVE (CREATE / UPDATE) =========
+    // ========= SAVE =========
     private async Task SaveReport()
     {
-        // ✅ VALIDATION
         if (string.IsNullOrWhiteSpace(ReporterName) ||
             string.IsNullOrWhiteSpace(IncidentType) ||
             string.IsNullOrWhiteSpace(IncidentLocation))
@@ -83,57 +119,66 @@ public partial class NewReportViewModel : BaseViewModel
             return;
         }
 
-        if (IsEditMode && Report != null)
+        try
         {
-            // ✅ UPDATE
-            Report.ReporterName = ReporterName;
-            Report.ReporterPhone = ReporterPhone;
-            Report.ReporterEmail = ReporterEmail;
-            Report.Contact = Contact;
-            Report.IncidentType = IncidentType;
-            Report.IncidentDate = IncidentDate;
-            Report.IncidentLocation = IncidentLocation;
-            Report.Description = Description;
-
-            await _databaseService.UpdateReportAsync(Report);
-
-            await ShowAlertAsync("Updated", "Report updated successfully!");
-        }
-        else
-        {
-            // ✅ CREATE NEW (NO PDF HERE)
-            var report = new PoliceReport
+            if (IsEditMode && Report != null)
             {
-                ReportNo = $"PR-{DateTime.Now:yyyyMMddHHmmss}",
-                ReporterName = ReporterName,
-                ReporterPhone = ReporterPhone,
-                ReporterEmail = ReporterEmail,
-                Contact = Contact,
-                IncidentType = IncidentType,
-                IncidentDate = IncidentDate,
-                IncidentLocation = IncidentLocation,
-                Description = Description,
-                Status = "Submitted",
-                CreatedOn = DateTime.UtcNow
-            };
+                // ✅ UPDATE
+                Report.ReporterName = ReporterName;
+                Report.ReporterPhone = ReporterPhone;
+                Report.ReporterEmail = ReporterEmail;
+                Report.Contact = Contact;
+                Report.IncidentType = IncidentType;
+                Report.IncidentDate = IncidentDate;
+                Report.IncidentLocation = IncidentLocation;
+                Report.Description = Description;
 
-            await _databaseService.AddReportAsync(report);
+                await _databaseService.UpdateReportAsync(Report);
 
-            // ✅ PDF REMOVED — USER MUST CLICK "Generate PDF"
-            await ShowAlertAsync("Success", "Report submitted successfully!");
+                await ShowAlertAsync("Updated", "Report updated successfully!");
+            }
+            else
+            {
+                // ✅ CREATE
+                var report = new PoliceReport
+                {
+                    ReportNo = $"PR-{DateTime.Now:yyyyMMddHHmmss}",
+                    ReporterName = ReporterName,
+                    ReporterPhone = ReporterPhone,
+                    ReporterEmail = ReporterEmail,
+                    Contact = Contact,
+                    IncidentType = IncidentType,
+                    IncidentDate = IncidentDate,
+                    IncidentLocation = IncidentLocation,
+                    Description = Description,
+                    Status = "Submitted",
+                    CreatedOn = DateTime.UtcNow
+                };
+
+                await _databaseService.AddReportAsync(report);
+
+                await ShowAlertAsync("Success", "Report submitted successfully!");
+            }
+
+            // ✅ IMPORTANT FIX: go back to list after save/edit
+            await Shell.Current.GoToAsync("..");
         }
-
-        // ✅ GO BACK TO REPORT LIST
-        await Shell.Current.GoToAsync(nameof(ReportListPage));
+        catch (Exception ex)
+        {
+            await ShowAlertAsync("Save Error",
+                $"{ex.Message}\n{ex.InnerException?.Message}");
+        }
     }
 
-    // ========= ALERT HELPER =========
+    // ========= ALERT =========
     private static async Task ShowAlertAsync(string title, string message, string cancel = "OK")
     {
         var app = Application.Current;
+
         if (app?.Windows.Count > 0)
         {
             var page = app.Windows[0].Page;
+
             if (page != null)
                 await page.DisplayAlertAsync(title, message, cancel);
         }

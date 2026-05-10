@@ -8,7 +8,7 @@ namespace NPRSApp.Maui.Views;
 
 public partial class ReportListPage : ContentPage
 {
-    public ReportListPage(ReportListViewModel vm)
+    public ReportListPage(ReportsListViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

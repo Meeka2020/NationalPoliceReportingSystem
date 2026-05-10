@@ -6,12 +6,11 @@ using System.Text;
 
 namespace NPRSApp.Maui.Views
 {
-
     public partial class ViewReportPage : ContentPage
     {
-        private readonly ViewReportViewModel _viewModel;
+        private readonly ReportsListViewModel _viewModel;
 
-        public ViewReportPage(ViewReportViewModel viewModel)
+        public ViewReportPage(ReportsListViewModel viewModel)
         {
             InitializeComponent();
             BindingContext = _viewModel = viewModel;
@@ -20,11 +19,8 @@ namespace NPRSApp.Maui.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
             await _viewModel.LoadReportsAsync();
         }
     }
 }
-
-    
 

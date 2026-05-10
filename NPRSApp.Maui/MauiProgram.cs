@@ -27,7 +27,7 @@ public static class MauiProgram
         builder.Services.AddTransient<NewReportPage>();
         builder.Services.AddSingleton<BookAppointmentViewModel>();
         builder.Services.AddTransient<BookAppointmentPage>(); 
-        builder.Services.AddSingleton<ReportListViewModel>();
+        builder.Services.AddSingleton<ReportsListViewModel>();
         builder.Services.AddSingleton<ReportListPage>();
         builder.Services.AddTransient<ViewReportViewModel>();
         builder.Services.AddTransient<ViewReportPage>();

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using SQLite;
 
 namespace NPRSApp.Maui.Model
 {
+    [Table("PoliceReports")]
     public class PoliceReport
     {
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         public string ReportNo { get; set; } = string.Empty;
@@ -20,13 +21,10 @@ namespace NPRSApp.Maui.Model
         public string IncidentLocation { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        // Make these nullable if they are optional in your form/flow.
-        public DateTime? ConsultationDate { get; set; }  // no default -> null
-        public TimeSpan? ConsultationTime { get; set; }  // no default -> null
+        public DateTime? ConsultationDate { get; set; }
+        public TimeSpan? ConsultationTime { get; set; }
 
         public string Status { get; set; } = "Submitted";
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
-
-
 }
