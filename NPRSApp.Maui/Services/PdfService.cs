@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NPRSApp.Maui.Services
 {
-    public static class PdfService
+    public class PdfService
     {
         public static async Task GeneratePdfAsync(PoliceReport report)
         {

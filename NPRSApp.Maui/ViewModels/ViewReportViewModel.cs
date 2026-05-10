@@ -1,86 +1,127 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using NPRSApp.Maui.Model;
 using NPRSApp.Maui.Services;
 using NPRSApp.Maui.Views;
+using System.Collections.ObjectModel;
 
 namespace NPRSApp.Maui.ViewModels;
 
-[QueryProperty(nameof(Report), "Report")]
 public partial class ViewReportViewModel : BaseViewModel
 {
     private readonly DatabaseService _databaseService;
 
-    private PoliceReport? _report;
-    public PoliceReport? Report
-    {
-        get => _report;
-        set => SetProperty(ref _report, value);
-    }
+    public ObservableCollection<PoliceReport> Reports { get; } = [];
 
-    public IRelayCommand EditCommand { get; }
-    public IAsyncRelayCommand DeleteCommand { get; }
-    public IAsyncRelayCommand PdfCommand { get; }
+    public IAsyncRelayCommand<PoliceReport> ViewCommand { get; }
+    public IAsyncRelayCommand<PoliceReport> EditCommand { get; }
+    public IAsyncRelayCommand<PoliceReport> DeleteCommand { get; }
 
     public ViewReportViewModel(DatabaseService databaseService)
     {
         _databaseService = databaseService;
 
-        Title = "Report Details";
+        Title = "View Reports";
 
-        EditCommand = new AsyncRelayCommand(OnEditAsync);
-        DeleteCommand = new AsyncRelayCommand(OnDeleteAsync);
-        PdfCommand = new AsyncRelayCommand(OnGeneratePdfAsync);
+        ViewCommand = new AsyncRelayCommand<PoliceReport>(OnViewAsync);
+        EditCommand = new AsyncRelayCommand<PoliceReport>(OnEditAsync);
+        DeleteCommand = new AsyncRelayCommand<PoliceReport>(OnDeleteAsync);
     }
 
-    private async Task OnEditAsync()
+    public async Task LoadReportsAsync()
     {
-        if (Report is null)
+        if (IsBusy)
             return;
 
-        await Shell.Current.GoToAsync(
-            nameof(NewReportPage),
-            new Dictionary<string, object>
+        try
+        {
+            IsBusy = true;
+            Reports.Clear();
+
+            var reports = await _databaseService.GetReportsAsync();
+
+            foreach (var report in reports)
             {
-                { "Report", Report }
-            });
+                Reports.Add(report);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
-    private async Task OnDeleteAsync()
+    private async Task OnViewAsync(PoliceReport? report)
     {
-        if (Report is null)
+        if (report == null)
             return;
 
-        bool confirm = await Shell.Current.DisplayAlertAsync(
-            "Confirm Delete",
-            "Are you sure you want to delete this report?",
-            "Yes",
-            "No");
-
-        if (!confirm)
-            return;
-
-        await _databaseService.DeleteReportAsync(Report);
-
-        await Shell.Current.DisplayAlertAsync(
-            "Deleted",
-            "Report deleted successfully.",
-            "OK");
-
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            await Shell.Current.GoToAsync(
+                nameof(ViewSingleReportPage),
+                new Dictionary<string, object>
+                {
+                    { "Report", report }
+                });
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Navigation Error", ex.Message, "OK");
+        }
     }
 
-    private async Task OnGeneratePdfAsync()
+    private async Task OnEditAsync(PoliceReport? report)
     {
-        if (Report is null)
+        if (report == null)
             return;
 
-        // ✅ STATIC METHOD CALL – CORRECT
-        await PdfService.GeneratePdfAsync(Report);
+        try
+        {
+            await Shell.Current.GoToAsync(
+                nameof(NewReportPage),
+                new Dictionary<string, object>
+                {
+                    { "Report", report }
+                });
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Edit Error", ex.Message, "OK");
+        }
+    }
 
-        await Shell.Current.DisplayAlertAsync(
-            "PDF Generated",
-            "The report receipt has been generated.",
-            "OK");
+    private async Task OnDeleteAsync(PoliceReport? report)
+    {
+        if (report == null)
+            return;
+
+        try
+        {
+            bool confirm = await Shell.Current.DisplayAlertAsync(
+                "Delete",
+                "Delete this report?",
+                "Yes",
+                "No");
+
+            if (!confirm)
+                return;
+
+            await _databaseService.DeleteReportAsync(report);
+
+            Reports.Remove(report);
+
+            await Shell.Current.DisplayAlertAsync(
+                "Deleted",
+                "Report deleted successfully",
+                "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Delete Error", ex.Message, "OK");
+        }
     }
 }
